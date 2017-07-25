@@ -1,0 +1,1054 @@
+<!--
+	1. 预加载模块，菜单界面，排行榜
+	2. 服务器储存
+	3. 游戏功能
+	 3.1 降落伞道具
+-->
+
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>打飞机</title>
+		<link rel="stylesheet" href="css/reset.css" />
+		<style type="text/css">
+			.loading {
+				position: absolute;
+				text-align: center;
+				vertical-align: middle;
+				background-image: url(img/plane/background.png);
+				background-size: 100% 100%;
+			}
+			
+			.loading img {
+				top: 50%;
+				left: 50%;
+				position: absolute;
+				margin-top: -15px;
+				margin-left: -15px;
+			}
+			
+			canvas {
+				position: absolute;
+				display: none;
+			}
+			
+			.score {
+				position: absolute;
+				top: 20px;
+				left: 20px;
+				font-size: 2em;
+			}
+			/*开始界面布局*/
+			
+			.entry {
+				background-image: url(img/plane/background.png);
+				position: relative;
+				overflow: hidden;
+				z-index: 5;
+			}
+			
+			.start {
+				display: block;
+				margin: 0 auto;
+				margin-top: 50%;
+			}
+			
+			.Ftitle {
+				width: 200px;
+				height: 70px;
+				text-align: center;
+				line-height: 70px;
+				font-weight: bold;
+				font-size: 20px;
+			}
+			
+			.rgt {
+				width: 200px;
+				height: 150px;
+				background-color: #c3c8c9;
+				border: 1px solid black;
+				border-radius: 10px;
+				margin: 0 auto;
+				margin-top: 50%;
+				position: relative;
+				display: none;
+			}
+			
+			.Fstart {
+				width: 80px;
+				height: 20px;
+				border: 1px solid black;
+				border-radius: 3px;
+				text-align: center;
+				line-height: 20px;
+				float: left;
+				position: absolute;
+				bottom: 10px;
+				left: 10px;
+				color: #000000;
+				font-weight: bold;
+			}
+			
+			.Framp {
+				width: 80px;
+				height: 20px;
+				border: 1px solid black;
+				border-radius: 3px;
+				text-align: center;
+				line-height: 20px;
+				float: right;
+				position: absolute;
+				bottom: 10px;
+				right: 10px;
+				color: #000000;
+				font-weight: bold;
+			}
+			
+			.Franking {
+				width: 100px;
+				height: 80px;
+				position: absolute;
+				bottom: 20px;
+				right: 20px;
+			}
+			
+			.FrankingDiv {
+				width: 300px;
+				height: 70%;
+				background-color: #c3c8c9;
+				border: 1px solid black;
+				border-radius: 10px;
+				margin: 0 auto;
+				margin-top: 20%;
+				position: relative;
+				display: none;
+			}
+			
+			.FtitleKing {
+				width: 150px;
+				height: 30px;
+				font-size: 20px;
+				text-align: center;
+				line-height: 30px;
+				margin: 0 auto;
+			}
+			
+			.FReturns {
+				width: 100px;
+				height: 20px;
+				font-size: 20px;
+				font-weight: bold;
+				position: absolute;
+				bottom: 20px;
+				left: 20px;
+				display: none;
+			}
+			
+			.FRank {
+				width: 300px;
+				height: 30px;
+				overflow: hidden;
+				border-bottom: 1px solid black;
+				display: flex;
+				justify-content: center;
+			}
+			
+			.Fno,
+			.Fname,
+			.FScore {
+				float: left;
+				width: 90px;
+				height: 25px;
+				text-align: center;
+				line-height: 25px;
+			}
+			
+			.FPrompt {
+				color: red;
+				font-size: 12px;
+				width: 70px;
+				height: 15px;
+				position: absolute;
+				left: 50%;
+				margin-left: -10px;
+				display: none;
+			}
+			
+			.FgameMenu {
+				width: 200px;
+				height: 130px;
+				background-color: #c3c8c9;
+				border: 1px solid black;
+				border-radius: 10px;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-left: -100px;
+				margin-top: -65px;
+				display: none;
+			}
+			
+			.Fgame {
+				width: 80px;
+				height: 30px;
+				border: 1px solid black;
+				border-radius: 3px;
+				text-align: center;
+				line-height: 30px;
+				color: #000000;
+				font-weight: bold;
+				position: absolute;
+				left: 50%;
+				bottom: 20px;
+				margin-left: -40px;
+			}
+			
+			.FgemaScore {
+				color: black;
+				font-size: 30px;
+				text-align: center;
+				height: 50px;
+				margin-top: 20px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="entry">
+			<!--开始游戏按钮-->
+			<img src="img/plane/198c05c93875dc53a7ac28a3a814bfe5.png" class="start" />
+			<!--输入姓名-->
+			<div class="rgt">
+				<p class="Ftitle">请输入姓名</p>
+				&nbsp;姓名： <input type="text" name="name" value="" class="Finname" />
+				<br />
+				<p class="FPrompt">请输入正确姓名</p>
+				<br />
+				<p class="Fstart">进入游戏</p>
+				<p class="Framp">返回主页</p>
+			</div>
+			<!--排行榜-->
+			<img src="img/plane/788d2e2569be6ddcad8e4a6a64d06d37.png" class="Franking" />
+			<div class="FrankingDiv">
+				<p class="FtitleKing">排行榜</p>
+				<div class="FRank">
+					<p class="Fno">排名</p>
+					<p class="Fname">姓名</p>
+					<p class="FScore">分数</p>
+				</div>
+				<!--<div class="FRank"><p class="Fno">排名</p><p class="Fname">姓名</p><p class="FScore">分数</p></div>-->
+			</div>
+			<p class="FReturns">返回</p>
+		</div>
+		<div class="loading">
+			<img src="img/plane/loading.gif" />
+		</div>
+		<canvas></canvas>
+		<div class="score">得分：0</div>
+		<div class="FgameMenu">
+			<p class="FgemaScore">得分：10000</p>
+
+			<p class="Fgame">确定</p>
+		</div>
+
+		<!--音乐-->
+		<div id="audiocontainer" style="display:none">
+			<audio id="bgsound" loop="loop" autoplay="autoplay" src="">
+			</audio>
+			<audio id="bulletsound" src="audio/bullet.mp3">
+			</audio>
+			<audio id="enemy3sound" src="audio/enemy3_down.mp3">
+			</audio>
+			<audio id="gameoversound" src="audio/game_over.mp3">
+			</audio>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var loadDiv = document.querySelector(".loading");
+		var loadImg = loadDiv.querySelector("img");
+		var canvas = document.querySelector("canvas");
+		var scoreDiv = document.querySelector(".score");
+		var ctx = canvas.getContext("2d");
+		var timer = null;
+		var scoreAll = 0;
+
+		var bgsound = document.getElementById('bgsound');
+		var bulletsound = document.getElementById('bulletsound');
+		var enemy3sound = document.getElementById('enemy3sound');
+		var gameoversound = document.getElementById('gameoversound');
+		//判断设备是否是pc
+		function isPc() { 
+			var de = new Array("iPhone", "Android", "iPod", "iPad", "Windows Phone", "SymbianOS");
+			var info = navigator.userAgent;
+			for(var i = 0; i < de.length; i++) {
+				if(info.indexOf(de[i]) > -1) {
+					return false;
+				}
+			}
+			return true;
+		}
+		//更改canvas的大小
+		if(isPc()) {
+			canvas.width = 320;
+			canvas.height = 568;
+		} else {
+			canvas.width = window.innerWidth;
+			canvas.height = window.innerHeight;
+		}
+		var cw = canvas.width;
+		var ch = canvas.height;
+		//验证
+		//		console.log(canvas.width);
+		//		console.log(canvas.height);
+		loadDiv.style.width = canvas.width + "px";
+		loadDiv.style.height = canvas.height + "px";
+		//预加载图片
+		var loadArr = [];
+		var pair = [];
+		var pic_load = ["img/plane/background.png", "img/plane/bomb.png", "img/plane/bullet1.png", "img/plane/bullet2.png", "img/plane/enemy1.png", "img/plane/enemy2.png", "img/plane/enemy3.png", "img/plane/herofly.png", "img/plane/prop.png", "img/plane/bull3.png"];
+		for(var i = 0; i < pic_load.length; i++) {
+			var img = new Image();
+			img.index = i;
+			img.src = pic_load[i];
+			pair[i] = img;
+			img.onload = function() {
+				loadArr.push(this);
+				if(loadArr.length == pic_load.length) {
+					FzqEntry();
+				}
+			}
+		}
+		var bgImg = pair[0]; //背景
+		var bombImg = pair[1]; //炸弹
+		var bull1 = pair[2]; //子弹1
+		var bull2 = pair[3]; //子弹2
+		var enemy1 = pair[4]; //敌机1
+		var enemy2 = pair[5]; //敌机2
+		var enemy3 = pair[6] //敌机3
+		var hero = pair[7]; //我方飞机
+		var prop = pair[8]; //降落伞奖励
+		var bull3 = pair[9]; //激光
+		function animate() {
+			//清空画布
+			ctx.clearRect(0, 0, cw, ch);
+			//背景滚动
+			bgScroll();
+			//绘制飞机
+			heroPlayer.draw();
+			//绘制敌机
+			drawEnemy();
+			//绘制子弹
+			drawBullert();
+			//绘制奖励
+			drawGift();
+			//绘制炸弹图标
+			drawBombs();
+			/*****/
+			drawCirl();
+		}
+		var typeTime2 = 0;
+		var typeTime3 = 0;
+		var bombNums = 0;
+
+		function drawGift() {
+			var giftNums = fnRand(0, 10000);
+			if(bullType == 2 && typeTime2 > 0) {
+				typeTime2 -= 30;
+			} else if(bullType == 2 && typeTime2 <= 0) {
+				bullType = 1;
+			}
+			if(bullNum == 3 && typeTime3 > 0) {
+				typeTime3 -= 30;
+			} else {
+				bullNum = 8;
+			}
+			if(giftNums > 9900) {
+				var giftKind = fnRand(0, 3);
+				var gift = null;
+				switch(giftKind) {
+					case 1:
+						gift = new Gifts(1, fnRand(2, 8), fnRand(0, window.innerWidth - 39), 0, 39, 68);
+						break;
+					case 2:
+						gift = new Gifts(2, fnRand(2, 8), fnRand(0, window.innerWidth - 39), 0, 39, 68);
+						break;
+					case 3:
+						gift = new Gifts(3, fnRand(2, 8), fnRand(0, window.innerWidth - 39), 0, 39, 68);
+						break;
+					default:
+						break;
+				}
+				giftArrs.push(gift);
+			}
+			for(var i = 0; i < giftArrs.length; i++) {
+				giftArrs[i].move();
+				if(isCrash(heroPlayer, giftArrs[i])) {
+					switch(giftArrs[i].kind) {
+						case 1:
+							if(bombNums < 3) {
+								bombNums++;
+							}
+							break;
+						case 2:
+							bullType = 2;
+							typeTime2 = 20000;
+							break;
+						case 3:
+							bullNum = 3;
+							typeTime3 = 20000;
+							break;
+						default:
+							break;
+					}
+					giftArrs.splice(i, 1);
+					i--;
+				}
+			}
+		}
+		//绘制炸弹图标
+		function drawBombs() {
+			if(bombNums > 0) {
+				for(var i = 0; i < bombNums; i++) {
+					ctx.drawImage(bombImg, 30 + 50 * i, window.innerHeight - 65);
+				}
+			}
+		}
+		//创建奖励构造函数
+		function Gifts(kind, speed, x, y, w, h) {
+			this.kind = kind;
+			this.speed = speed;
+			this.x = x;
+			this.y = y;
+			this.w = w;
+			this.h = h;
+		}
+		Gifts.prototype.move = function() {
+			this.y += this.speed;
+			ctx.drawImage(prop, this.w * (this.kind - 1), 0, this.w, this.h, this.x, this.y, this.w, this.h);
+		}
+		var giftArrs = [];
+
+		
+
+		function bgScroll() {
+			bgy += 5;
+			bgy > ch ? bgy = 0 : null;
+			ctx.drawImage(bgImg, 0, bgy, cw, ch);
+			ctx.drawImage(bgImg, 0, bgy - ch, cw, ch);
+		}
+		//背景滚动参数
+		var bgy = 0;
+		var heroPlayer = {
+			x: cw / 2 - 33,
+			y: ch - 82,
+			w: 66,
+			h: 82,
+			picX: 0,
+			ex: 0,
+			isBol: false,
+			flips: 0,
+			draw: function() {
+				this.flips++;
+				//				console.log(this.flips);
+				if(this.flips == 5) {
+					this.flips = 0;
+				}
+				if(this.isBol && this.picX != 4) {
+					this.picX += 0.1;
+
+					//					alert(1);
+					if(submited == 0) {
+						submitScore(1);
+						submited = 1;
+						bulletsound.pause();
+						//死亡弹窗
+						var FgameMenu = document.querySelector(".FgameMenu");
+						var FgameScore = document.querySelector(".FgemaScore");
+						ctx.clearRect(0, 0, cw, ch);
+						clearInterval(timer);
+						bgScroll()
+						FgameScore.innerHTML = scoreDiv.innerHTML;
+						FgameMenu.style.display = "block";
+						scoreDiv.style.display = "none";
+						gameoversound.play();
+						bgsound.src = "";
+						bulletsound.src = "";
+
+					}
+				}
+				if(!this.isBol && this.picX == 0 && this.flips == 4) {
+					this.picX = 1;
+				} else if(!this.isBol && this.picX == 1 && this.flips == 4) {
+					this.picX = 0;
+				}
+				ctx.drawImage(hero, this.w * Math.floor(this.picX), 0, this.w, this.h, this.x, this.y, this.w, this.h);
+			}
+		}
+		var enemyArr = []; //用来储存敌机对象
+		var enemyNum = 200; //随机数的取值范围，用来限制出现敌机的概率
+		var submited = 0;
+		//		敌机构造函数
+		function Enemy(x, y, w, h, img, speed, hp, picMax, score) {
+			this.x = x;
+			this.y = y;
+			this.w = w;
+			this.h = h;
+			this.img = img;
+			this.speed = speed;
+			this.hp = hp;
+			this.picX = 0;
+			this.picMax = picMax;
+			this.clear = false;
+			this.score = score;
+		}
+		Enemy.prototype.move = function() {
+				this.y += this.speed;
+				if(this.hp <= 0) {
+					this.picX += 0.5;
+					if(this.picX >= this.picMax) {
+						this.clear = true;
+						enemy3sound.play();
+
+						/****得分****/
+						scoreAll += this.score;
+						scoreDiv.innerHTML = "得分：" + scoreAll;
+						return;
+					}
+				}
+				ctx.drawImage(this.img, Math.floor(this.picX) * this.w, 0, this.w, this.h, this.x, this.y, this.w, this.h);
+			}
+			//随机数
+		function fnRand(min, max) {
+			return Math.ceil(Math.random() * (max - min) + min);
+		}
+		//创建敌机
+		function creatEnemy() {
+			var num = fnRand(0, 200);
+			var y = 0;
+			var x = 0;
+			var w = 0;
+			var h = 0;
+			var img = null;
+			var hp = 0;
+			var speed = 0;
+			var picMax = 0;
+			var score = 0;
+			if(num <= 10) {
+				if(num == 10) {
+					//创建大型敌机
+					x = fnRand(0, cw - 110);
+					y = -164;
+					w = 110;
+					h = 164;
+					img = enemy2;
+					hp = 600;
+					speed = fnRand(2, 3);
+					picMax = 9;
+					score = 600;
+				} else if(num > 7) {
+					//创建中型敌机
+					x = fnRand(0, cw - 46);
+					y = -64;
+					w = 46;
+					h = 64;
+					img = enemy3;
+					hp = 300;
+					speed = fnRand(2, 5);
+					picMax = 5;
+					score = 200;
+				} else {
+					//创建小型敌机
+					x = fnRand(0, cw - 38);
+					y = -34;
+					w = 38;
+					h = 34;
+					img = enemy1;
+					hp = 300;
+					speed = fnRand(2, 7);
+					picMax = 4;
+					score = 100;
+				}
+				var enemy = new Enemy(x, y, w, h, img, speed, hp, picMax, score);
+				enemyArr.push(enemy);
+			}
+		}
+		//绘制敌机
+		function drawEnemy() {
+			creatEnemy();
+			for(var i = 0; i < enemyArr.length; i++) {
+				enemyArr[i].move();
+				if(isCrash(heroPlayer, enemyArr[i])) {
+					heroPlayer.isBol = true;
+
+					continue;
+				}
+				if(enemyArr[i].y >= ch || enemyArr[i].clear) {
+					//这个敌机飞出了屏幕
+					enemyArr.splice(i, 1);
+					i--;
+				}
+			}
+		}
+		//子弹
+		var bullArr = [];
+		var bullNum = 8; //用来控制子弹的时间间隔
+		var bn = 0; // 同上， 配合使用
+		var bullType = 1; //1就是1排子弹 2就是2排子弹
+		var lightBull = null;
+
+		function Bullert(x, y, w, h, img, hurt) {
+			this.x = x;
+			this.y = y;
+			this.w = w;
+			this.h = h;
+			this.img = img;
+			this.hurt = hurt;
+			this.speed = 9;
+		}
+		Bullert.prototype.move = function() {
+				if(this.hurt == 300) {
+
+					this.x = heroPlayer.x + heroPlayer.w / 2 - 15;
+					this.y = heroPlayer.y - this.h;
+					ctx.drawImage(this.img, this.x, this.y, this.w, this.h);
+				} else {
+					this.y -= this.speed;
+					ctx.drawImage(this.img, this.x, this.y, this.w, this.h);
+				}
+				//				this.y -= this.speed;
+				//				ctx.drawImage(this.img, this.x, this.y, this.w, this.h);
+			}
+			//创建子弹
+		function createBullert() {
+			bn++;
+			if(bullType != 3) {
+				bulletsound.play();
+			}
+
+			if(bn > 140) {
+				bn = 1;
+			}
+			if(bn % bullNum == 0 && heroPlayer.isBol == false) {
+				var x = 0;
+				var y = 0;
+				var w = 0;
+				var h = 0;
+				var bullert = null;
+				var img = null;
+				var hurt = 0;
+				if(bullType == 1) {
+					//1排子弹
+					x = heroPlayer.x + heroPlayer.w / 2 - 3;
+					y = heroPlayer.y - 14;
+					w = 6;
+					h = 14;
+					bullert = new Bullert();
+					img = bull1;
+					hurt = 100;
+				} else if(bullType == 3) {
+					x = heroPlayer.x + heroPlayer.w / 2 - 15;
+					y = heroPlayer.y - 300;
+					w = 30;
+					h = 600;
+					bullert = new Bullert();
+					img = bull3;
+					hurt = 300;
+				} else {
+					//2排子弹
+					x = heroPlayer.x + heroPlayer.w / 2 - 24;
+					y = heroPlayer.y - 14;
+					w = 48;
+					h = 14;
+					bullert = new Bullert();
+					img = bull2;
+					hurt = 200;
+
+				}
+				//				bullert = new Bullert(x, y, w, h, img, hurt);
+				if(bullType != 3 && xuli == false) {
+					bullert = new Bullert(x, y, w, h, img, hurt);
+					bullArr.push(bullert);
+					for(var i = 0; i < bullArr.length; i++) {
+						if(bullArr[i].hurt == 300) {
+							bullArr.splice(i, 1);
+							i--;
+						}
+					}
+				} else if(shotlight == 0 && bullType == 3) {
+					bullert = new Bullert(x, y, w, h, img, hurt);
+					bullArr.push(bullert);
+					shotlight == 1;
+				}
+
+				//				bullArr.push(bullert);
+			}
+		}
+		var shotlight = 0;
+
+		function drawBullert() {
+
+			createBullert();
+			for(var i = 0; i < bullArr.length; i++) {
+
+				bullArr[i].move();
+				if(bullArr[i].y < -14 && bullArr[i].hurt != 300) {
+					//这个zidan飞出了屏幕
+					bullArr.splice(i, 1);
+					i--;
+					continue;
+				}
+				var a = i;
+
+				for(var j = 0; j < enemyArr.length; j++) {
+					if(isCrash(bullArr[a], enemyArr[j]) && enemyArr[j].hp > 0 && !heroPlayer.isBol) {
+						//碰到了
+						//敌机减血量
+						enemyArr[j].hp -= bullArr[a].hurt;
+						//						bullArr.splice(a, 1);
+						//						i--;
+						if(bullArr[a].hurt != 300) {
+							bullArr.splice(a, 1);
+							i--;
+						}
+						//结束内部循环
+						break;
+					}
+				}
+			}
+		}
+
+		function isCrash(first, second) {
+			var l1 = first.x;
+			var t1 = first.y;
+			var r1 = first.w + first.x;
+			var b1 = first.h + first.y;
+
+			var l2 = second.x;
+			var t2 = second.y;
+			var r2 = second.w + second.x;
+			var b2 = second.h + second.y;
+
+			if(l2 > r1 || r2 < l1 || t1 > b2 || b1 < t2) {
+				return false;
+			} else {
+				return true;
+			}
+		}
+		//键盘操作事件
+		var hl = false;
+		var ht = false;
+		var hr = false;
+		var hb = false;
+		//气功波
+		var xuli = false;
+		var xuliNums = 0;
+		//用来对heroPlayer的参数进行变化
+		function heroMove() {
+			if(hl) {
+				heroPlayer.x -= 10;
+			}
+			if(ht) {
+				heroPlayer.y -= 10;
+			}
+			if(hr) {
+				heroPlayer.x += 10;
+			}
+			if(hb) {
+				heroPlayer.y += 10;
+			}
+			if(xuli) {
+				xuliNums += 30;
+			}
+			heroPlayer.draw();
+		}
+		var keyTimer = setInterval(heroMove, 30);
+		document.addEventListener("keydown", function(event) {
+			var e = event || window.event;
+			//			console.log(e.keyCode);
+			switch(e.keyCode) {
+				case 37:
+					hl = true;
+					break;
+				case 38:
+					ht = true;
+					break;
+				case 39:
+					hr = true;
+					break;
+				case 40:
+					hb = true;
+					break;
+				case 32:
+					if(heroPlayer.isBol == false && bombNums > 0) {
+						boom();
+					}
+					break;
+				case 65:
+					xuli = true;
+					break;
+				default:
+					break;
+			}
+		}, false);
+		document.addEventListener("keyup", function(event) {
+			var e = event || window.event;
+			switch(e.keyCode) {
+				case 37:
+					hl = false;
+					break;
+				case 38:
+					ht = false;
+					break;
+				case 39:
+					hr = false;
+					break;
+				case 40:
+					hb = false;
+					break;
+				case 65:
+					xuli = false;
+					var playX = heroPlayer.x + heroPlayer.w / 2;
+					var playY = heroPlayer.y + heroPlayer.h / 2;
+					var cirl = new cirlShot(playX, playY, xuliNums / 10, xuliNums / 200, xuliNums);
+					cirlArr.push(cirl);
+					xuliNums = 0;
+					break;
+				default:
+					break;
+			}
+		}, false);
+		//触屏事件
+		canvas.addEventListener("touchstart", touchStart, false);
+		canvas.addEventListener("touchmove", function(event2) {
+			if(isTouch) {
+				var e2 = event2 || window.event;
+				var x2 = e2.touches[0].clientX - canvas.offsetLeft;
+				var y2 = e2.touches[0].clientY - canvas.offsetTop;
+				heroPlayer.x = x2 - heroPlayer.w / 2;
+				heroPlayer.y = y2 - heroPlayer.h / 2;
+			}
+		}, false);
+		var isTouch = false;
+
+		function touchStart(event) {
+			var e = event || window.event;
+			var x = e.touches[0].clientX - canvas.offsetLeft;
+			var y = e.touches[0].clientY - canvas.offsetTop;
+			if(e.touches.length == 2 && bombNums > 0 && heroPlayer.isBol == false) {
+				boom();
+			}
+			if(x > heroPlayer.x && x < heroPlayer.x + heroPlayer.w && y > heroPlayer.y && y < heroPlayer.y + heroPlayer.h) {
+				isTouch = true;
+			} else {
+				isTouch = false;
+			}
+		}
+
+		function boom() {
+			bombNums--;
+			for(var i = 0; i < enemyArr.length; i++) {
+				enemyArr[i].hp = 0;
+
+			}
+		}
+		//		构造冲击波
+		function cirlShot(x, y, hurt, w, maxR) {
+			this.x = x;
+			this.y = y;
+			this.hurt = hurt;
+			this.w = w;
+			this.maxR = maxR;
+			this.r = 0;
+			this.appear = 0;
+		}
+		cirlShot.prototype.move = function() {
+			if(this.appear == 0 && this.r < this.maxR) {
+				this.r += 3;
+				ctx.strokeStyle = "white";
+				ctx.beginPath();
+				ctx.lineWidth = this.w;
+				ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2, true);
+				ctx.stroke();
+				ctx.closePath();
+			} else {
+				this.appear == 1;
+			}
+
+		}
+		var cirlArr = [];
+
+		function drawCirl() {
+			for(var i = 0; i < cirlArr.length; i++) {
+				cirlArr[i].move();
+				if(cirlArr[i].appear == 1) {
+					cirlArr.splice(i, 0);
+					i--;
+				}
+				for(var j = 0; j < enemyArr.length; j++) {
+					var enemyX = enemyArr[j].x + enemyArr[j].w / 2;
+					var enemyY = enemyArr[j].y + enemyArr[j].h / 2;
+					var rrr = Math.sqrt((enemyX - cirlArr[i].x) * (enemyX - cirlArr[i].x) + (enemyY - cirlArr[i].y) * (enemyY - cirlArr[i].y));
+					if(rrr > cirlArr[i].r && rrr < cirlArr[i].r + 15) {
+						enemyArr[j].hp -= cirlArr[i].hurt;
+					}
+				}
+			}
+		}
+		//使用AJAX提交请求
+		function submitScore(aa) {
+			var ajax = creatAjax();
+			ajax.open("POST", "sortPlayer.php", false);
+			ajax.setRequestHeader("content-Type", "application/x-www-form-urlencoded");
+			var Finname = document.querySelector(".Finname");
+
+			var data = {
+				"type": aa,
+				"name": Finname.value,
+				"score": scoreAll
+			}
+			var arr = [];
+			for(var key in data) {
+				var row = key + "=" + data[key];
+				arr.push(row);
+			}
+			var deTail = arr.join("&");
+			ajax.onreadystatechange = function() {
+				if(aa == 2) {
+					//					alert(1);
+					var back = ajax.responseText;
+					console.log(JSON.parse(back));
+					createAdd(JSON.parse(back));
+				}
+			}
+			ajax.send(deTail);
+		}
+
+		function creatAjax() {
+			var obj = {};
+			if(window.ActiveXObject) {
+				obj = new ActiveXObject();
+			} else if(window.XMLHttpRequest) {
+				obj = new XMLHttpRequest();
+			}
+			return obj;
+		}
+
+		function createAdd(arr) {
+			var arrScort = [];
+			var arrName = [];
+			for(var i = 0; i < arr.length; i++) {
+				arrScort.push(parseInt(arr[i]["score"]));
+				arrName.push(arr[i]["name"]);
+			}
+			//			arrScort = quickSort(arrScort);
+			var arrFinal = sortArrAndName(arrScort, arrName);
+			//			var finalArrScort = [];
+			//			var finalArrName = [];
+
+			console.log(arrFinal);
+			var FrankingDiv = document.querySelector(".FrankingDiv");
+			var len = arrFinal[0].length - 1;
+			for(var i = 0; i < Math.min(10, arrFinal[0].length); i++) {
+				var newDiv = document.createElement("div");
+				newDiv.innerHTML = '<p class="Fno">' + (i + 1) + '</p><p class="Fname">' + arrFinal[1][len - i] + '</p><p class="FScore">' + arrFinal[0][len - i] + '</p>';
+				newDiv.className = "FRank dele";
+				FrankingDiv.appendChild(newDiv);
+			}
+		}
+  //冒泡排序
+		function sortArrAndName(arr1, arr2) {
+			for(var i = 0; i < arr1.length - 1; i++) {
+				for(var j = 0; j < arr1.length - i - 1; j++) {
+					if(arr1[j] > arr1[j + 1]) {
+						var temp = arr1[j];
+						arr1[j] = arr1[j + 1];
+						arr1[j + 1] = temp;
+						var nameTemp = arr2[j];
+						arr2[j] = arr2[j + 1];
+						arr2[j + 1] = nameTemp;
+					}
+				}
+			}
+			return [arr1, arr2];
+		}
+
+		//开始js
+		function FzqEntry() {
+			var entry = document.querySelector(".entry");
+			var start = document.querySelector(".start");
+			var Frgt = document.querySelector(".rgt");
+			var Fstart = document.querySelector(".Fstart");
+			var Framp = document.querySelector(".Framp");
+			var Franking = document.querySelector(".Franking");
+			var FrankingDiv = document.querySelector(".FrankingDiv");
+			var FReturns = document.querySelector(".FReturns");
+			var Finname = document.querySelector(".Finname");
+			var FPrompt = document.querySelector(".FPrompt");
+			if(isPc()) {
+				entry.style.width = "320px";
+				entry.style.height = "568px";
+			} else {
+				entry.style.width = window.innerWidth + "px";
+				entry.style.height = window.innerHeight + "px";
+			}
+			loadDiv.style.display = "none";
+			start.onclick = function() {
+				start.style.display = "none";
+				Frgt.style.display = "block";
+				Franking.style.display = "none";
+
+			}
+			Framp.onclick = function() {
+					start.style.display = "block";
+					Frgt.style.display = "none";
+					Franking.style.display = "block";
+				}
+				//开始游戏
+			Fstart.onclick = function() {
+				if(Finname.value.length > 0) {
+					entry.style.display = "none";
+					canvas.style.display = "block";
+					bgsound.src = "audio/game_music.mp3";
+					bgsound.volume = 0.5;
+					timer = setInterval(animate, 30);
+				} else {
+					FPrompt.style.display = "block";
+				}
+
+			}
+			Franking.onclick = function() {
+				start.style.display = "none";
+				FrankingDiv.style.display = "block";
+				FReturns.style.display = "block";
+				Franking.style.display = "none";
+				//创建排行榜
+				//发送ajax请求
+				submitScore(2);
+				//排名 创建DOM
+			}
+			FReturns.onclick = function() {
+				var deles = document.querySelectorAll(".dele");
+				for(var i = 0; i < deles.length; i++) {
+					deles[i].remove();
+				}
+				start.style.display = "block";
+				FrankingDiv.style.display = "none";
+				FReturns.style.display = "none";
+				Franking.style.display = "block";
+
+			}
+
+		}
+		var fGameDiv = document.querySelector(".Fgame");
+		fGameDiv.addEventListener("touchstart", function() {
+			location.reload();
+		}, false)
+		fGameDiv.onclick = function() {
+			location.reload();
+		}
+	</script>
+
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>选字游戏</title>
+		<link rel="stylesheet" type="text/css" href="css/reset.css" />
+		<style>
+			.wrap {
+				width: 400px;
+				height: 600px;
+				border: 1px solid black;
+				margin: 0 auto;
+			}
+			
+			header {
+				margin-top: 30px;
+				height: 50px;
+			}
+			
+			header p {
+				font-size: 2em;
+			}
+			
+			.resTime {
+				float: left;
+				margin-left: 20px;
+			}
+			
+			.score {
+				float: right;
+				margin-right: 20px;
+			}
+			
+			.show {
+				margin-top: 20px;
+				font-size: 10em;
+				text-align: center;
+			}
+			
+			.menu {
+				font-size: 2em;
+				width: 95%;
+				margin: 0 auto;
+				margin-top: 50px;
+			}
+			
+			ul {
+				display: flex;
+				justify-content: space-around;
+				font-size: 6em;
+				margin-top: 50px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="wrap">
+			<header>
+				<p class="resTime">剩余时间：20.00</p>
+				<p class="score">得分：0</p>
+			</header>
+			<p class="show">黑</p>
+			<p class="menu">根据上面的字的颜色从下面选择正确的字，选择正确自动开始</p>
+			<ul>
+				<li>黑</li>
+				<li>红</li>
+				<li>黄</li>
+				<li>绿</li>
+				<li>蓝</li>
+			</ul>
+		</div>
+	</body>
+	<script type="text/javascript">
+		//产生随机数
+		function fnRand(x) {
+			return parseInt(Math.random() * x);
+		}
+
+		//获取html节点
+		var wordArrs = new Array("黑", "红", "黄", "绿", "蓝");
+		var colorArrs = new Array("black", "red", "yellow", "green", "blue");
+		var liArrs = document.getElementsByTagName("li");
+		var pResTime = document.querySelector(".resTime");
+		var pShow = document.querySelector(".show");
+		var pScore = document.querySelector(".score");
+		//用来倒计时
+		var timer = null;
+		
+		//用来计算得分
+		var grade = 0;
+		//总时间
+		var allTime = 20;
+
+		//		1. 修改.show的内容和颜色
+		function fnChangeShow() {
+			pShow.innerHTML = wordArrs[fnRand(5)];
+			pShow.style.color = colorArrs[fnRand(5)];
+		}
+		fnChangeShow();
+
+		//倒计时
+		function cd() {
+			timer = setInterval(function() {
+				allTime -= 0.05;
+				pResTime.innerHTML = "剩余时间：" + Math.abs(allTime).toFixed(2);
+				if (allTime <= 0) {
+					clearInterval(timer);
+					timer = null;
+					alert("Game over！");
+				}
+			}, 50);
+		}
+		
+		//打乱数组
+		function disArr() {
+			var arr = new Array();
+			for (var i = 0;i<5;i++){
+				arr.push(i);
+			}
+			return arr.sort(function() {
+				return 0.5 - Math.random();
+			});
+			// sort() 如果没有参数，则按照ASCII进行比较排列
+			// sort()的工作原理是对一组数进行比较
+			// 当参数大于等于0，这一组数不变
+			// 当参数小于0，这一组数交换位置
+		}
+		//刷新选项列表
+		function freshList() {
+			var newWordArr = disArr();
+			var newColorArr = disArr();
+			for (var i = 0; i < newWordArr.length; i++) {
+				liArrs[i].innerHTML = wordArrs[newWordArr[i]];
+				liArrs[i].style.color = colorArrs[newColorArr[i]];
+				liArrs[i].iColor = newWordArr[i];
+				
+			}
+		}
+		freshList();
+		
+		//修改得分情况
+		function changeGrade() {
+			grade ++;
+			pScore.innerHTML = "得分：" + grade;
+		}
+		
+		//为li添加点击事件
+		for (var i = 0; i < liArrs.length; i++) {	
+			liArrs[i].onclick = function() {
+				if (colorArrs[this.iColor] == pShow.style.color) {
+//					1. 计时
+					if (grade == 0) {
+					    cd();
+					}
+//					2. 得分
+					changeGrade();
+//					3. 改变pShow
+					fnChangeShow();
+//					4. 改变li列表
+					freshList();
+				}
+			}
+		}
+	</script>
+
+</html>
