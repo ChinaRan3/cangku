@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>精美视频</title>
+		<link rel="stylesheet" type="text/css" href="css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="js/swiper.min.css" />
+		<style>
+			html,
+			body {
+				height: 100%;
+				width: 100%;
+				background-color: black;
+			}
+			
+			.colorVideo button,.buttonOne {
+				height: 100px;
+				margin: 20px;
+				margin-left: 10%;
+				font-size: 2em;
+				color: white;
+			}
+			
+			
+			.videoShow {
+				position: relative;
+				height: 30%;
+				width: 80%;
+				margin-left: 10%;
+				border: 2px solid red;
+				overflow: hidden;
+				margin-top: 120%;
+			}
+			#anchor{
+				position: absolute;
+			}
+			
+			.videoShow .videoShowing {
+				position: absolute;
+				height: 100%;
+				width: 100%;
+				object-fit: fill;
+				display: none;
+			}
+			
+			.videoShow .videoImage {
+				position: absolute;
+				height: 100%;
+				width: 100%;
+			}
+			
+			.swiper-container {
+				height: 100%;
+				width: 100%;
+				display: none;
+			}
+			
+			.swiper-slide {
+				text-align: center;
+				font-size: 18px;
+				background: #fff;
+				/* Center slide text vertically */
+				display: -webkit-box;
+				display: -ms-flexbox;
+				display: -webkit-flex;
+				display: flex;
+				-webkit-box-pack: center;
+				-ms-flex-pack: center;
+				-webkit-justify-content: center;
+				justify-content: center;
+				-webkit-box-align: center;
+				-ms-flex-align: center;
+				-webkit-align-items: center;
+				align-items: center;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--头部精彩视频按钮-->
+		<div class="colorVideo">
+			<!--<button class="buttonOne">精美视频</button>-->
+			<a href="#anchor" class="buttonOne">精美视频</a>
+			<button class="buttonTwo">亮点展示</button>
+		</div>
+		<!--底部点击播放视频-->
+		<div class="videoShow">
+			<a href="" name="anchor" id="anchor"></a>
+			<div class="videoTime">
+				<video class="videoShowing" src="video/video.mp4" preload="auto"></video>
+			<img class="videoImage" src="img/page1_video_poster.png" />
+			</div>
+			
+			<!--swiperContainer-->
+			<div class="swiper-container">
+				<div class="swiper-wrapper">
+					<img src="img/1.jpg" alt="" class="swiper-slide" />
+					<img src="img/2.jpg" alt="" class="swiper-slide" />
+					<img src="img/3.jpg" alt="" class="swiper-slide" />
+					<img src="img/4.jpg" alt="" class="swiper-slide" />
+					<img src="img/5.jpg" alt="" class="swiper-slide" />
+				</div>
+				<!-- Add Arrows -->
+				<div class="swiper-button-next"></div>
+				<div class="swiper-button-prev"></div>
+			</div>
+
+		</div>
+	</body>
+	<script src="css/swiper.min.js"></script>
+	<script src="js/tween.js"></script>
+	<script type="text/javascript">
+		//获取视频点击按钮以及video
+		var colorVideo = document.querySelector(".colorVideo");
+		var colorVideoOne = document.querySelector(".colorVideo .buttonOne");
+		var colorVideoTwo = document.querySelector(".colorVideo .buttonTwo");
+
+		var videoShow = document.querySelector(".videoShow");
+		var videoImage = document.querySelector(".videoImage");
+		var videoShowing = document.querySelector(".videoShowing");
+		var swiperContainer = document.querySelector(".swiper-container");
+		
+		
+
+		//点击头部精彩视频，出现小火箭,亮点展示消失
+		colorVideoOne.onclick = function() {
+			videoImage.style.display = "block";
+			videoShowing.style.display = "none";
+			swiperContainer.style.display = "none";
+			rocket();
+
+		}
+
+		//点击图片，视频播放
+		videoImage.onclick = function() {
+			videoImage.style.display = "none";
+			videoShowing.style.display = "block";
+			videoShowing.play();
+			videoShowing.onended = function() {
+				videoImage.style.display = "block";
+				videoShowing.style.display = "none";
+			}
+		}
+
+		var timerOne = null;
+		//小火箭
+		function rocket() {
+//			原生js
+//			var start = document.body.scrollTop;
+//			var end = videoShow.offsetTop;
+////			console.log(start);
+////			console.log(end);
+//			clearInterval(timerOne);
+//			timerOne = setInterval(function(){
+//				start += 5;
+//				if(start <= end ){
+//					start = end ;
+//					clearInterval(timerOne);
+//					timerOne = null;
+//				}
+//				
+//				document.body.scrollTop = start;
+//			},30)
+//			console.log(start);
+
+//			tween.js
+			var t = 0;
+			var b = -document.body.scrollTop;
+			var c = document.body.scrollTop;
+			var d = 30;
+			clearInterval(timerOne);
+			timerOne = null;
+			
+			timerOne = setInterval(function(){
+				t++;
+				document.body.scrollTop = Tween.Linear(t,b,c,d);
+				if(t == d){
+					clearInterval(timerOne);
+			timerOne = null;
+				}
+			},10)
+		}
+
+		//点击亮点展示，出现大图滚动
+		colorVideoTwo.onclick = function() {
+			videoImage.style.display = "none";
+			videoShowing.style.display = "none";
+			swiperContainer.style.display = "block";
+			preScroll();
+		}
+
+		//使用swiper进行大图滚动
+		function preScroll() {
+			var swiper = new Swiper('.swiper-container', {
+				nextButton: '.swiper-button-next',
+				prevButton: '.swiper-button-prev',
+				paginationClickable: true,
+				spaceBetween: 30,
+				centeredSlides: true,
+				autoplay: 2500,
+				autoplayDisableOnInteraction: false
+			});
+		}
+	</script>
+
+</html>

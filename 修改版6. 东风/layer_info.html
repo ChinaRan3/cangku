@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="css/layer_info.css" />
+	
+	</head>
+
+	<body>
+		<div class="wrapInfo">
+			<div class="layer_info">
+				<div class="close"></div>
+				<form action="" method="post">
+					<div class="userName">
+						<span class="uesrname">*姓名:</span>
+						<input type="text" name="" id="" value="" style="width: 7.5rem;height: 1.5rem;border:1px solid #A32A24;text-indent: 0.5rem;color: #A32A24;background-color: white;" />
+					</div>
+					<div class="phoneNumber">
+						<span class="phoneNum">*手机号:</span>
+						<input type="text" name="" id="" value="" style="width: 7.5rem;height: 1.5rem;border:1px solid #A32A24;text-indent: 0.5rem;color: #A32A24;background-color: white;" />
+					</div>
+					<div class="isBook">
+						<span>是否预约试驾</span>
+						<span class="yes">是</span><input type="radio" name="a1" id="" value="" style="margin-left: 0.3rem;" />
+						<span class="no">否</span><input type="radio" name="a1" id="" value="" style="margin-left: 0.3rem;" />
+					</div>
+					<div class="nowConvince">
+						<span class="convince">*所在省份：</span>
+						<select name="" class="whichConvince" style="width: 3.5rem;height: 1.5rem;font-size: .5rem;color: #A32A24;background-image: url(img/layer_info_select.jpg);background-repeat: no-repeat;background-size: 100% 100%;">
+							<option value="">请选择</option>
+						</select>省
+						<select name="" class="whichCity" style="width: 3.5rem;height: 1.5rem;font-size: .5rem;color: #A32A24;background-image: url(img/layer_info_select.jpg);background-repeat: no-repeat;background-size: 100% 100%">
+							<option value="">请选择</option>
+						</select>市
+					</div>
+					<div class="shop">
+						<span class="bussiness">*选择经销商</span>
+						<select name="" class="whichDealer" style="width: 7rem;height: 1.5rem;text-indent: 0.5rem;color: #A32A24;background-color: white;">
+							<option value="">请选择</option>
+						</select>
+					</div>
+					<div class="car">
+						<span class="carSize">*选择车型</span>
+						<select name="" class="whichSize" style="width: 7rem;height: 1.5rem;text-indent: 0.5rem;color: #A32A24;background-color: white;">
+							<option value="">请选择</option>
+							<option value="">1.8L LUX AT</option>
+							<option value="">2.0L LUX AT</option>
+							<option value="">2.0L PRM AT</option>
+							<option value="">1.6T Turbo DCT</option>
+							<option value="">1.6T T-PRM DCT</option>
+							<option value="">1.8L GL MT</option>
+							<option value="">1.8L GL AT</option>
+							<option value="">1.8L GLS AT</option>
+							<option value="">1.8L DLX AT</option>
+							<option value="">1.8L GLS Special</option>
+							<option value="">1.8L DLX Special</option>
+							<option value="">1.6T Special DCT</option>
+						</select>
+					</div>
+					<div class="time">
+						<span class="buyCar">*预计购车时间</span>
+						<select name="" class="whenBuy" style="width: 6.8rem;height: 1.5rem;text-indent: 0.5rem;color: #A32A24;background-color: white;">
+							<option value="">请选择</option>
+							<option value="">0~3个月</option>
+							<option value="">4~6个月</option>
+							<option value="">7~9个月</option>
+							<option value="">10~12个月</option>
+						</select>
+					</div>
+				</form>
+				<div class="submitInfo"></div>
+			</div>
+		</div>
+	</body>
+		 	<script src="js/rem.js"></script>
+	<script src="js/jquery-1.12.4.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/dealersData.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/view.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+//		关闭页面
+		$(".close").click(function() {
+			$(".wrapInfo").css('display','none');
+		})
+	</script>
+
+</html>

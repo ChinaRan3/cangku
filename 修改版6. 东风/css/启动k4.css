@@ -1,0 +1,93 @@
+html,body{
+	height: 100%;
+}
+.actionK4 {
+	width: 20rem;
+	height: 100%;
+	background-image: url(../img/page3_bg.jpg);
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	position: relative;
+}
+.actionk4_k4,.actionK4>a{
+	position: absolute;
+	bottom: 0;
+	width: 100%;	
+	height: 10%;
+}
+.pageChoosed{
+	width: 12rem;
+	height: 12rem;
+	margin: 6rem 0 0 -6rem;
+}
+.img3046{
+	width: 17rem;
+	height:4rem;
+	position: absolute;
+	top: 5rem;
+	left: 3rem;
+}
+.imgRight,.imgRight1,.imgRight2,.imgRight3,.imgpage,.imgpage1,.imgpage2,.imgpage3{
+	width: 3rem;
+	height:3rem;
+	position: absolute;	
+	bottom: 10rem;
+
+}
+.imgcar1,.imgcar2,.imgcar3,.imgcar4{
+	width:2rem;
+	height: 2.3rem;
+	bottom: 10rem;
+	position: absolute;
+}
+.imgRight,.imgpage{
+	left: 2rem;
+}
+.imgRight1,.imgpage1{
+	left: 6rem; 
+}
+.imgRight2,.imgpage2{
+	left: 10rem;
+}
+.imgRight3,.imgpage3{
+	left: 14rem;
+}
+
+.imgpage,.imgpage1,.imgpage2,.imgpage3{
+	display: none;
+}
+.imgcar1{
+	left: 2.5rem;
+}
+.imgcar2{
+	left: 6.4rem;
+}
+.imgcar3{
+	left: 10.5rem;
+}
+.imgcar4{
+	left: 14.5rem;
+}
+.imgbox{
+	width: 17rem;
+	height: 7rem;
+}
+
+.imgcar5,.imgcar6,.imgcar7,.imgcar8{
+  	width: 7rem;
+  	height: 6rem;
+  	position: absolute;
+  	top: 8rem;
+  	left: 0rem;
+  	/*margin: -15rem 0 0 2rem;*/
+    display: none;  
+}
+.power,.power1,.power2,.power3{
+	width: 10rem;
+	height: 10rem;
+	position: absolute;
+	top: 3.8rem;
+	right: 1rem;	
+    display: none;
+}
+

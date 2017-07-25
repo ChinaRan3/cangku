@@ -1,0 +1,111 @@
+@keyframes tip {
+  0 {
+    opacity: 1;
+  }
+  30% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  80% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+html,
+body {
+  width: 100%;
+  height: 100%;
+  font-size: 0.333333rem;
+  overflow: hidden;
+}
+.wrapInfo {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  position: relative;
+}
+.wrapInfo .layer_info {
+  width: 90%;
+  height: 90%;
+  border: 1px solid #a32a24;
+  background-color: rgba(0, 0, 0, 0.8);
+  position: absolute;
+  left: .7rem;
+  top: .7rem;
+}
+.wrapInfo .layer_info .close {
+  width: 2rem;
+  height: 3rem;
+  background-image: url("../img/commen_close.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  position: absolute;
+  right: 1.5rem;
+}
+.wrapInfo .layer_info form {
+  width: 13.5rem;
+  height: 17rem;
+  position: absolute;
+  top: 3.5rem;
+  color: white;
+  font-size: .6rem;
+  left: .8rem;
+}
+.wrapInfo .layer_info form * {
+  max-height: 80px;
+}
+.wrapInfo .layer_info form .userName {
+  width: 10.5rem;
+  height: 2.4rem;
+  margin-left: 2rem;
+}
+.wrapInfo .layer_info form .phoneNumber {
+  width: 11.5rem;
+  height: 2.4rem;
+  margin-left: 1.4rem;
+}
+.wrapInfo .layer_info form .isBook {
+  width: 11.5rem;
+  height: 2rem;
+  margin-left: 1.5rem;
+}
+.wrapInfo .layer_info form .isBook .yes {
+  margin-left: .5rem;
+}
+.wrapInfo .layer_info form .isBook .no {
+  margin-left: .5rem;
+}
+.wrapInfo .layer_info form .nowConvince {
+  width: 13rem;
+  height: 2.4rem;
+}
+.wrapInfo .layer_info form .shop {
+  width: 12rem;
+  height: 2.4rem;
+  margin-left: .8rem;
+}
+.wrapInfo .layer_info form .car {
+  width: 12rem;
+  height: 2.4rem;
+  margin-left: 1.4rem;
+}
+.wrapInfo .layer_info form .time {
+  width: 12rem;
+  height: 2.4rem;
+  margin-left: .4rem;
+}
+.wrapInfo .layer_info .submitInfo {
+  width: 13rem;
+  height: 2.3rem;
+  position: absolute;
+  bottom: .5rem;
+  margin-left: .8rem;
+  background-image: url(../img/layer_info_submit.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+/*# sourceMappingURL=layer_info.css.map */

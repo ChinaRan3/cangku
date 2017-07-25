@@ -1,0 +1,40 @@
+html,body{
+    	height: 100%;
+    	width: 100%;
+    	background-color: black;
+    	
+    }
+    		.clockPre{
+    			height: 100%;
+    			width: 100%;
+    			background-color: black;
+    			background-repeat: no-repeat;
+    			background-size: 100% 100%;
+    		}
+    		.clockPre img{
+    			position: absolute;
+    			left: 50%;
+    		}
+    		.clockPre .clockClock{
+    			height: 140px;
+    			width: 156px;
+    			top: 30%;
+    			margin-left: -78px;
+    		}
+    		.clockPre .clockPointer{
+    			height: 75px;
+    			width: 9px;
+    			top: 30%;
+    			margin-left: -4.5px;
+    			transform-origin: center bottom;
+    			transform: rotate(-140deg);
+    		}
+    		.clockPre p{
+    			width: 2em;
+    			color: white;
+    			position: absolute;
+    			top: 30%;
+    			left: 50%;
+    			margin-top: 160px;
+    			margin-left: -1em;
+    		}
